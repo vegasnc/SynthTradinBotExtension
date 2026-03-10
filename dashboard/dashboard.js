@@ -189,6 +189,11 @@ async function loadPositions(data) {
       const partial = isOpen && p.tp1_closed ? "50%" : "—";
       const openedAt = formatLocal(p.opened_at);
       const closedAt = formatLocal(p.closed_at);
+      const profit1 = !isOpen ? (p.profit_tp1 ?? 0) : null;
+      const profit2 = !isOpen ? (p.profit_tp2 ?? 0) : null;
+      const profit1Str = !isOpen ? (profit1 ? formatPrice(profit1) : "—") : "—";
+      const profit2Str = !isOpen ? (profit2 ? formatPrice(profit2) : "—") : "—";
+      const closePrice = !isOpen ? (typeof p.close_price === "number" ? formatPrice(p.close_price) : (p.close_price != null ? String(p.close_price) : "—")) : "—";
       const qtyDisplay = isOpen && (p.original_qty != null && p.original_qty !== p.qty) ? `${formatPrice(p.qty)} / ${formatPrice(p.original_qty)}` : formatPrice(p.qty);
       const sideBadgeClass = (p.side === "long") ? "position-side position-side-long" : "position-side position-side-short";
       const pnlBgClass = pnl >= 0 ? "row-pnl-profit" : "row-pnl-loss";
@@ -197,7 +202,7 @@ async function loadPositions(data) {
         ? `<button type="button" class="btn-close-position" data-position-id="${p._id}" title="Close this position">Close</button>`
         : "—";
       tr.className = rowClass;
-      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td><span class="${sideBadgeClass}">${p.side}</span></td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${openedAt}</td><td>${closedAt}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
+      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td><span class="${sideBadgeClass}">${p.side}</span></td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${profit1Str}</td><td>${profit2Str}</td><td>${closePrice}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
       positionsTable.appendChild(tr);
     });
   } catch (_) {}
