@@ -190,10 +190,9 @@ async function loadPositions(data) {
       const openedAt = formatLocal(p.opened_at);
       const closedAt = formatLocal(p.closed_at);
       const qtyDisplay = isOpen && (p.original_qty != null && p.original_qty !== p.qty) ? `${formatPrice(p.qty)} / ${formatPrice(p.original_qty)}` : formatPrice(p.qty);
-      const sideClass = (p.side === "long") ? "row-side-long" : "row-side-short";
       const sideBadgeClass = (p.side === "long") ? "position-side position-side-long" : "position-side position-side-short";
       const pnlBgClass = pnl >= 0 ? "row-pnl-profit" : "row-pnl-loss";
-      const rowClass = `${sideClass} ${pnlBgClass}`;
+      const rowClass = pnlBgClass;
       const actionCell = isOpen && p._id
         ? `<button type="button" class="btn-close-position" data-position-id="${p._id}" title="Close this position">Close</button>`
         : "—";

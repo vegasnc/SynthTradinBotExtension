@@ -335,9 +335,7 @@ th { background: var(--bg-panel); font-weight: 600; color: var(--text-muted); }
 .pnl-neg { color: var(--red); font-weight: 500; }
 .pnl-cell { white-space: normal; word-break: break-word; max-width: 200px; }
 
-/* Positions: left border = side (long green, short red); background = PnL (loss = green tint, profit = red tint) */
-.row-side-long { border-left: 4px solid var(--green); }
-.row-side-short { border-left: 4px solid var(--red); }
+/* Positions: background = PnL (loss = red tint, profit = green tint) */
 .row-pnl-loss { background-color: rgba(239, 68, 68, 0.08); }
 .row-pnl-profit { background-color: rgba(34, 197, 94, 0.08); }
 
