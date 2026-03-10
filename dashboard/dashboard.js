@@ -190,12 +190,15 @@ async function loadPositions(data) {
       const openedAt = formatLocal(p.opened_at);
       const closedAt = formatLocal(p.closed_at);
       const qtyDisplay = isOpen && (p.original_qty != null && p.original_qty !== p.qty) ? `${formatPrice(p.qty)} / ${formatPrice(p.original_qty)}` : formatPrice(p.qty);
-      const rowClass = pnl >= 0 ? "row-pnl-pos" : "row-pnl-neg";
+      const sideClass = (p.side === "long") ? "row-side-long" : "row-side-short";
+      const sideBadgeClass = (p.side === "long") ? "position-side position-side-long" : "position-side position-side-short";
+      const pnlBgClass = pnl >= 0 ? "row-pnl-profit" : "row-pnl-loss";
+      const rowClass = `${sideClass} ${pnlBgClass}`;
       const actionCell = isOpen && p._id
         ? `<button type="button" class="btn-close-position" data-position-id="${p._id}" title="Close this position">Close</button>`
         : "—";
       tr.className = rowClass;
-      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td>${p.side}</td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${openedAt}</td><td>${closedAt}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
+      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td><span class="${sideBadgeClass}">${p.side}</span></td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${openedAt}</td><td>${closedAt}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
       positionsTable.appendChild(tr);
     });
   } catch (_) {}
@@ -236,9 +239,9 @@ async function loadSignals() {
 
 async function loadSynthCalls() {
   try {
-    const list = await endpoints.synthCalls(50);
+    const list = await endpoints.synthCalls(2000);
     synthTable.innerHTML = "";
-    list.slice(0, 20).forEach((c, i) => {
+    (list || []).forEach((c, i) => {
       const tr = document.createElement("tr");
       const ts = c.ts ? formatLocal(c.ts) : "-";
       const paramsStr = c.params != null ? JSON.stringify(c.params) : "—";
