@@ -154,7 +154,7 @@ async function loadPositions(data) {
     if (all.length === 0) {
       const tr = document.createElement("tr");
       tr.className = "table-empty-row";
-      tr.innerHTML = `<td colspan="14">No data</td>`;
+      tr.innerHTML = `<td colspan="17">No data</td>`;
       positionsTable.appendChild(tr);
     }
     all.forEach((p, i) => {
@@ -209,7 +209,7 @@ async function loadPositions(data) {
         ? `<button type="button" class="btn-close-position" data-position-id="${p._id}" title="Close this position">Close</button>`
         : "—";
       tr.className = rowClass;
-      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td><span class="${sideBadgeClass}">${p.side}</span></td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${profit1Str}</td><td>${profit2Str}</td><td>${closePrice}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
+      tr.innerHTML = `<td>${i + 1}</td><td>${status}</td><td>${p.symbol}</td><td><span class="${sideBadgeClass}">${p.side}</span></td><td>${qtyDisplay}</td><td>${formatPrice(p.entry_price)}</td><td>${typeof stop === "number" ? formatPrice(stop) : stop}</td><td>${tp1Val}</td><td>${tp2Val}</td><td>${partial}</td><td>${profit1Str}</td><td>${profit2Str}</td><td>${openedAt}</td><td>${closedAt}</td><td>${closePrice}</td><td class="${pnlClass} pnl-cell">${pnlDisplay}</td><td>${actionCell}</td>`;
       positionsTable.appendChild(tr);
     });
   } catch (_) {}
